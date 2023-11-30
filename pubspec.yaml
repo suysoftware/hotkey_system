@@ -9,7 +9,8 @@ platforms:
 
 screenshots:
   - description: Hotkey System Logo.
-    path: assets/hs_logo.png
+    path: assets/hs_logo_192.png
+
 topics:
   - hotkey
   - shortcuts
