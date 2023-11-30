@@ -9,10 +9,10 @@ import 'package:hotkey_system/src/widgets/hotkey_virtual_view.dart';
 class HotKeyRecorder extends StatefulWidget {
   const HotKeyRecorder({
     Key? key,
-    this.initalHotKey,
+    this.initialHotKey,
     required this.onHotKeyRecorded,
   }) : super(key: key);
-  final HotKey? initalHotKey;
+  final HotKey? initialHotKey;
   final ValueChanged<HotKey> onHotKeyRecorded;
 
   @override
@@ -24,59 +24,108 @@ class _HotKeyRecorderState extends State<HotKeyRecorder> {
 
   @override
   void initState() {
-    if (widget.initalHotKey != null) {
-      _hotKey = widget.initalHotKey!;
-    }
-    RawKeyboard.instance.addListener(_handleRawKeyEvent);
     super.initState();
+    _hotKey = widget.initialHotKey;
+    HardwareKeyboard.instance.addHandler(_handleHardwareKeyEvent);
   }
 
   @override
   void dispose() {
-    RawKeyboard.instance.removeListener(_handleRawKeyEvent);
+    HardwareKeyboard.instance.removeHandler(_handleHardwareKeyEvent);
     super.dispose();
   }
 
-  _handleRawKeyEvent(RawKeyEvent value) {
-    if (value is! RawKeyDownEvent) return;
+  bool _handleHardwareKeyEvent(KeyEvent event) {
+    if (event is KeyDownEvent) {
 
-    KeyCode? keyCode;
-    List<KeyModifier>? keyModifiers;
+      KeyCode? keyCode = KeyCodeParser.fromLogicalKey(event.logicalKey);
+      List<KeyModifier> keyModifiers = _getKeyModifiers();
 
-    keyCode = KeyCode.values.firstWhereOrNull(
-      (kc) {
-        if (!value.isKeyPressed(kc.logicalKey)) return false;
-        KeyModifier? keyModifier = KeyModifierParser.fromLogicalKey(kc.logicalKey);
-
-        if (keyModifier != null && value.data.isModifierPressed(keyModifier.modifierKey)) {
-          return false;
+      if (keyCode != null && keyModifiers.isNotEmpty && !isKeyCodeModifier(keyCode)) {
+        _hotKey = HotKey(
+          keyCode,
+          modifiers: keyModifiers,
+        );
+        if (widget.initialHotKey != null) {
+          _hotKey?.identifier = widget.initialHotKey!.identifier;
+          _hotKey?.scope = widget.initialHotKey!.scope;
         }
 
+        widget.onHotKeyRecorded(_hotKey!);
+        setState(() {});
         return true;
-      },
-    );
-    keyModifiers = KeyModifier.values.where((km) => value.data.isModifierPressed(km.modifierKey)).toList();
-
-    if (keyCode != null) {
-      _hotKey = HotKey(
-        keyCode,
-        modifiers: keyModifiers,
-      );
-      if (widget.initalHotKey != null) {
-        _hotKey?.identifier = widget.initalHotKey!.identifier;
-        _hotKey?.scope = widget.initalHotKey!.scope;
+      } else {
+        return false;
       }
-
-      widget.onHotKeyRecorded(_hotKey!);
-
-      setState(() {});
+    } else {
+      return false;
     }
+  }
+
+  List<KeyModifier> _getKeyModifiers() {
+    List<KeyModifier> keyModifiers = [];
+
+    // Pressed logical keys
+    var logicalKeysPressed = HardwareKeyboard.instance.logicalKeysPressed;
+
+    // Pressed logical modifier keys
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
+      if (!keyModifiers.any((element) => element == KeyModifier.control)) {
+        keyModifiers.add(KeyModifier.control);
+      }
+    }
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.shiftLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.shiftRight)) {
+      if (!keyModifiers.any((element) => element == KeyModifier.shift)) {
+        keyModifiers.add(KeyModifier.shift);
+      }
+    }
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.altLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.altRight)) {
+      if (!keyModifiers.any((element) => element == KeyModifier.alt)) {
+        keyModifiers.add(KeyModifier.alt);
+      }
+    }
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.metaLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.metaRight)) {
+      if (!keyModifiers.any((element) => element == KeyModifier.meta)) {
+        keyModifiers.add(KeyModifier.meta);
+      }
+    }
+
+    //remove simillar modifiers
+
+    return keyModifiers;
+  }
+
+  bool isKeyCodeModifier(KeyCode keyCode) {
+    // Check modifiers
+    if (keyCode.logicalKey == KeyCode.control.logicalKey || keyCode.logicalKey == KeyCode.controlLeft.logicalKey || keyCode.logicalKey == KeyCode.controlRight.logicalKey) {
+      return true;
+    }
+    if (keyCode.logicalKey == KeyCode.shift.logicalKey || keyCode.logicalKey == KeyCode.shiftLeft.logicalKey || keyCode.logicalKey == KeyCode.shiftRight.logicalKey) {
+      return true;
+    }
+    if (keyCode.logicalKey == KeyCode.alt.logicalKey || keyCode.logicalKey == KeyCode.altLeft.logicalKey || keyCode.logicalKey == KeyCode.altRight.logicalKey) {
+      return true;
+    }
+    if (keyCode.logicalKey == KeyCode.meta.logicalKey || keyCode.logicalKey == KeyCode.metaLeft.logicalKey || keyCode.logicalKey == KeyCode.metaRight.logicalKey) {
+      return true;
+    }
+
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     if (_hotKey == null) {
-      return Container();
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 4.0),
+        child: Text(
+          'eg. ⌘ T B',
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.white.withOpacity(0.35),
+          ),
+        ),
+      );
     }
     return HotKeyVirtualView(hotKey: _hotKey!);
   }
