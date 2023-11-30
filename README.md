@@ -1,9 +1,6 @@
-# hotkey_system
-
-[![pub version][pub-image]][pub-url] 
-
-
-[pub-url]: https://pub.dev/packages/hotkey_system
+<p align="center">
+<img src="https://firebasestorage.googleapis.com/v0/b/think-buddy.appspot.com/o/default_files%2Fhs_logo.png?alt=media&token=76ffec3d-0d9b-460b-8e62-f5fbec586989" height="100" alt="HotkeySystem" />
+</p>
 
 
 This plugin allows Flutter desktop apps to defines system/inapp wide hotkey (i.e. shortcut).
@@ -44,7 +41,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.1.7
+  hotkey_system: ^0.0.2
 ```
 
 Or
@@ -113,7 +110,7 @@ HotKeyRecorder(
 
 ## Who's using it?
 
-- [ThinkBuddy](https://thinkbuddy.ai) - Crafted for native MacOS experience integrated with AI
+- [ThinkBuddy](https://thinkbuddy.ai) - Made for native MacOS experience integrated with AI
 
 ## API
 

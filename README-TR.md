@@ -1,9 +1,8 @@
-# hotkey_system
+<p align="center">
+<img src="https://firebasestorage.googleapis.com/v0/b/think-buddy.appspot.com/o/default_files%2Fhs_logo.png?alt=media&token=76ffec3d-0d9b-460b-8e62-f5fbec586989" height="100" alt="HotkeySystem" />
+</p>
 
-[![pub version][pub-image]][pub-url] 
 
-
-[pub-url]: https://pub.dev/packages/hotkey_system
 
 
 Bu eklenti, Flutter masaüstü uygulamalarının sistem/genel kullanım veya içerik genelinde kısayol (shortcut) tanımlamalarına olanak sağlar.
@@ -44,7 +43,7 @@ Bu alanı pubspec.yaml dosyasına ekleyiniz.
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.1.7
+  hotkey_system: ^0.0.2
 ```
 
 Yada

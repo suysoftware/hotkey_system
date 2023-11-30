@@ -11,7 +11,7 @@ copies of the Software, subject to the following conditions:
 
 1. You must include this SUY Project License notice in all copies or substantial portions of the Software.
 
-**Note: This project is based on the "hotkey_manager" package originally created by LiJianying <lijy91@foxmail.com>. We have fixed bugs and re-released it as the SUY Project.**
+**Note: This project is based on the "hotkey_manager" package originally created by LiJianying <lijy91@foxmail.com>. We have fixed bugs, update Flutter Keyboard Api (RawKeyboard => HardwareKeyboard) re-released it as the SUY Project.**
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
