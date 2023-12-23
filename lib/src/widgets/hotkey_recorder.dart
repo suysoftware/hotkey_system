@@ -1,8 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hotkey_system/src/enums/key_modifier.dart';
 import 'package:hotkey_system/src/enums/key_code.dart';
+import 'package:hotkey_system/src/enums/key_modifier.dart';
 import 'package:hotkey_system/src/hotkey.dart';
 import 'package:hotkey_system/src/widgets/hotkey_virtual_view.dart';
 
@@ -119,7 +118,7 @@ class _HotKeyRecorderState extends State<HotKeyRecorder> {
       return Padding(
         padding: const EdgeInsets.only(bottom: 4.0),
         child: Text(
-          'eg. ⌘ T B',
+          'eg. ⌘ ⌥ B',
           style: TextStyle(
             fontSize: 11,
             color: Colors.white.withOpacity(0.35),
