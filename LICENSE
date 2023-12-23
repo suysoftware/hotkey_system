@@ -4,14 +4,13 @@ Copyright (c) 2023-2024 SUY <suy.development@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software under the terms and conditions of the MIT License as specified above.
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-In addition, you are granted a license to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, subject to the following conditions:
-
-1. You must include this SUY Project License notice in all copies or substantial portions of the Software.
-
-**Note: This project is based on the "hotkey_manager" package originally created by LiJianying <lijy91@foxmail.com>. We have fixed bugs, update Flutter Keyboard Api (RawKeyboard => HardwareKeyboard) re-released it as the SUY Project.**
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
