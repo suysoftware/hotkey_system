@@ -14,3 +14,23 @@ Cmd KeyModifier bug fixed
 Flutter Keyboard Api updated from RawKeyboard to HardwareKeyboard
 Single KeyCode registering operation opened ( inApp )
 "eg. ⌘ T B" Text added to Recording Container
+
+## 0.0.3
+
+* Improvements
+
+some improvements
+
+
+## 0.0.4
+
+* Feature
+
+linux support added
+windows support added
+
+* Improvements
+
+"eg. ⌘ T B" Text updated
+pub package score improvements
+documentation updated
