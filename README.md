@@ -18,6 +18,7 @@ English | [Turkish](./README-TR.md)
   - [Platform Support](#platform-support)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
+      - [Linux requirements](#linux-requirements)
     - [Usage](#usage)
   - [Who's using it?](#whos-using-it)
   - [API](#api)
@@ -41,7 +42,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.3
+  hotkey_system: ^0.0.4
 ```
 
 Or
@@ -52,6 +53,15 @@ dependencies:
     git:
       url: https://github.com/suysoftware/hotkey_system.git
       ref: main
+```
+#### Linux requirements
+
+- [`keybinder-3.0`](https://github.com/kupferlauncher/keybinder)
+
+Run the following command
+
+```
+sudo apt-get install keybinder-3.0
 ```
 
 ### Usage
@@ -106,6 +116,69 @@ HotKeyRecorder(
 ),
 ```
 
+
+Use `HotKeyRecorder` widget with initialHotkey
+
+```dart
+HotKeyRecorder(
+  onHotKeyRecorded: (hotKey) {
+    _hotKey = hotKey;
+    setState(() {});
+  },
+  initialHotKey: HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"})
+),
+```
+
+Register with identifier
+
+```dart
+// ⌥ + Q
+HotKey _hotKey = HotKey(
+  KeyCode.keyQ,
+  modifiers: [KeyModifier.alt],
+  identifier: "examleidentifier"
+  // Set hotkey scope (default is HotKeyScope.system)
+  scope: HotKeyScope.inapp, // Set as inapp-wide hotkey.
+);
+await hotKeySystem.register(
+  _hotKey,
+  keyDownHandler: (hotKey) {
+    print('onKeyDown+${hotKey.toJson()}');
+  },
+  // Only works on macOS.
+  keyUpHandler: (hotKey){
+    print('onKeyUp+${hotKey.toJson()}');
+  } ,
+);
+
+```
+Hotkey.fromJson usage
+
+```dart
+HotKey _hotKey = HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"})
+await hotKeySystem.register(
+  _hotKey,
+  keyDownHandler: (hotKey) {
+    print('onKeyDown+${hotKey.toJson()}');
+  },
+  // Only works on macOS.
+  keyUpHandler: (hotKey){
+    print('onKeyUp+${hotKey.toJson()}');
+  } ,
+);
+
+```
+
+
+HotKeyVirtualView usage
+
+```dart
+ 
+return HotKeyVirtualView(HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"}));
+
+```
+
+
 > Please see the example app of this plugin for a full example.
 
 ## Who's using it?
@@ -116,11 +189,11 @@ HotKeyRecorder(
 
 ### HotKeySystem
 
-| Method        | Description                               | macOS | 
-| ------------- | ----------------------------------------- | ----- | 
-| register      | register an system/inapp wide hotkey.     | ✔️     |
-| unregister    | unregister an system/inapp wide hotkey.   | ✔️     |
-| unregisterAll | unregister all system/inapp wide hotkeys. | ✔️     |
+| Method        | Description                               | Linux | macOS | Windows |
+| ------------- | ----------------------------------------- | ----- | ----- | ------- |
+| register      | register an system/inapp wide hotkey.     | ✔️     | ✔️     | ✔️       |
+| unregister    | unregister an system/inapp wide hotkey.   | ✔️     | ✔️     | ✔️       |
+| unregisterAll | unregister all system/inapp wide hotkeys. | ✔️     | ✔️     | ✔️       |
 
 ## Related Links
 

@@ -20,6 +20,7 @@ Bu eklenti, Flutter masaüstü uygulamalarının sistem/genel kullanım veya iç
   - [Platform Support](#platform-support)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
+      - [Linux requirements](#linux-requirements)
     - [Usage](#usage)
   - [Who's using it?](#whos-using-it)
   - [API](#api)
@@ -31,9 +32,9 @@ Bu eklenti, Flutter masaüstü uygulamalarının sistem/genel kullanım veya iç
 
 ## Platform Desteği
 
-| macOS |
-| :---: |
-|   ✔️   |
+| Linux | macOS | Windows |
+| :---: | :---: | :-----: |
+|   ✔️   |   ✔️   |    ✔️    |
 
 ## Hızlı Başlangıç
 
@@ -43,7 +44,7 @@ Bu alanı pubspec.yaml dosyasına ekleyiniz.
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.3
+  hotkey_system: ^0.0.4
 ```
 
 Yada
@@ -55,6 +56,16 @@ dependencies:
       url: https://github.com/suysoftware/hotkey_system.git
       ref: main
 ```
+#### Linux gereklilikleri
+
+- [`keybinder-3.0`](https://github.com/kupferlauncher/keybinder)
+
+Run the following command
+
+```
+sudo apt-get install keybinder-3.0
+```
+
 
 ### Kullanım
 
@@ -97,7 +108,7 @@ await hotKeySystem.unregister(_hotKey);
 await hotKeySystem.unregisterAll();
 ```
 
-Use `HotKeyRecorder` Hotkey kaydetmek için bunu çağırabilirsiniz.
+`HotKeyRecorder` Hotkey kaydetmek için bunu çağırabilirsiniz.
 
 ```dart
 HotKeyRecorder(
@@ -106,6 +117,66 @@ HotKeyRecorder(
     setState(() {});
   },
 ),
+```
+
+`HotKeyRecorder` widget'ın initialHotKey ile kullanımı
+
+```dart
+HotKeyRecorder(
+  onHotKeyRecorded: (hotKey) {
+    _hotKey = hotKey;
+    setState(() {});
+  },
+  initialHotKey: HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"})
+),
+```
+
+HotKey'i identifier özelliği ile kaydet
+
+```dart
+// ⌥ + Q
+HotKey _hotKey = HotKey(
+  KeyCode.keyQ,
+  modifiers: [KeyModifier.alt],
+  identifier: "examleidentifier"
+  // Set hotkey scope (default is HotKeyScope.system)
+  scope: HotKeyScope.inapp, // Set as inapp-wide hotkey.
+);
+await hotKeySystem.register(
+  _hotKey,
+  keyDownHandler: (hotKey) {
+    print('onKeyDown+${hotKey.toJson()}');
+  },
+  // Only works on macOS.
+  keyUpHandler: (hotKey){
+    print('onKeyUp+${hotKey.toJson()}');
+  } ,
+);
+
+```
+Hotkey.fromJson kullanımı
+
+```dart
+HotKey _hotKey = HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"})
+await hotKeySystem.register(
+  _hotKey,
+  keyDownHandler: (hotKey) {
+    print('onKeyDown+${hotKey.toJson()}');
+  },
+  // Only works on macOS.
+  keyUpHandler: (hotKey){
+    print('onKeyUp+${hotKey.toJson()}');
+  } ,
+);
+
+```
+
+HotKeyVirtualView kullanımı
+
+```dart
+ 
+return HotKeyVirtualView(HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],"identifier":"fdf8484b-5249-42bb-b473-d99bfb7bb3e8","scope":"system"}));
+
 ```
 
 > Lütfen example app isimli örnek uygulamadan diğer detayları inceleyiniz.
@@ -118,11 +189,11 @@ HotKeyRecorder(
 
 ### HotKeySystem
 
-| Metod         | Açıklama                                                | macOS | 
-| ------------- | ------------------------------------------------------- | ----- | 
-| register      | Bir sistem/içerik genelinde kısayol kaydet              | ✔️     |
-| unregister    | Bir sistem/içerik genelinde kısayolu kaydı sil          | ✔️     |
-| unregisterAll | Tüm sistem/içerik genelinde kısayolları kayıtlardan sil | ✔️     |
+| Metod         | Açıklama                                                | Linux | macOS | Windows |
+| ------------- | ------------------------------------------------------- | ----- | ----- | ------- |
+| register      | Bir sistem/içerik genelinde kısayol kaydet              | ✔️     | ✔️     | ✔️       |
+| unregister    | Bir sistem/içerik genelinde kısayolu kaydı sil          | ✔️     | ✔️     | ✔️       |
+| unregisterAll | Tüm sistem/içerik genelinde kısayolları kayıtlardan sil | ✔️     | ✔️     | ✔️       |
 
 ## İlgili linkler
 
