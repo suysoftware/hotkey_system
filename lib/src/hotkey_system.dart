@@ -3,7 +3,6 @@
 import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hotkey_system/src/enums/key_code.dart';
 import 'package:hotkey_system/src/enums/key_modifier.dart';
 import 'package:hotkey_system/src/hotkey.dart';
