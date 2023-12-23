@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-const Map<KeyCode, LogicalKeyboardKey> _knownLogicalKeys =
-    <KeyCode, LogicalKeyboardKey>{
+const Map<KeyCode, LogicalKeyboardKey> _knownLogicalKeys = <KeyCode, LogicalKeyboardKey>{
   // KeyCode.none: LogicalKeyboardKey.none,
   KeyCode.hyper: LogicalKeyboardKey.hyper,
   KeyCode.superKey: LogicalKeyboardKey.superKey,
@@ -657,13 +656,10 @@ final Map<KeyCode, String> _knownKeyLabels = <KeyCode, String>{
 
 extension KeyCodeParser on KeyCode {
   static KeyCode? fromLogicalKey(LogicalKeyboardKey logicalKey) {
-    List<int> logicalKeyIdList =
-        _knownLogicalKeys.values.map((e) => e.keyId).toList();
+    List<int> logicalKeyIdList = _knownLogicalKeys.values.map((e) => e.keyId).toList();
     if (!logicalKeyIdList.contains(logicalKey.keyId)) return null;
 
-    return _knownLogicalKeys.entries
-        .firstWhere((entry) => entry.value.keyId == logicalKey.keyId)
-        .key;
+    return _knownLogicalKeys.entries.firstWhere((entry) => entry.value.keyId == logicalKey.keyId).key;
   }
 
   LogicalKeyboardKey get logicalKey {
@@ -671,11 +667,7 @@ extension KeyCodeParser on KeyCode {
   }
 
   static KeyCode parse(String string) {
-    return KeyCode.values.firstWhere((e) => describeEnum(e) == string);
-  }
-
-  String get stringValue {
-    return describeEnum(this);
+    return KeyCode.values.firstWhere((e) => e.name == string);
   }
 
   int get keyId {
