@@ -34,3 +34,9 @@ windows support added
 "eg. ⌘ T B" Text updated
 pub package score improvements
 documentation updated
+
+## 0.0.5
+
+* Improvements
+
+documentation updated

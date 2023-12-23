@@ -30,9 +30,9 @@ English | [Turkish](./README-TR.md)
 
 ## Platform Support
 
-| macOS |
-| :---: |
-|   ✔️   |
+| Linux | macOS | Windows |
+| :---: | :---: | :-----: |
+|   ✔️   |   ✔️   |    ✔️    |
 
 ## Quick Start
 
@@ -42,7 +42,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.4
+  hotkey_system: ^0.0.5
 ```
 
 Or

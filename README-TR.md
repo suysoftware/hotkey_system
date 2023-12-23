@@ -44,7 +44,7 @@ Bu alanı pubspec.yaml dosyasına ekleyiniz.
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.4
+  hotkey_system: ^0.0.5
 ```
 
 Yada
