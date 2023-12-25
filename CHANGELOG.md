@@ -40,3 +40,10 @@ documentation updated
 * Improvements
 
 documentation updated
+
+## 0.0.6
+
+* Improvements
+
+UUID package deleted
+documentation updated
