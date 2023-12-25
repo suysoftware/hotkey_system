@@ -7,7 +7,6 @@ This plugin allows Flutter desktop apps to defines system/inapp wide hotkey (i.e
 
 ---
 
-English | [Turkish](./README-TR.md)
 
 ---
 
@@ -42,7 +41,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.5
+  hotkey_system: ^0.0.6
 ```
 
 Or
@@ -178,6 +177,108 @@ return HotKeyVirtualView(HotKey.fromJson({"keyCode":"keyR","modifiers":["meta"],
 
 ```
 
+Package Parsers
+```dart
+// Parsing a string to a KeyModifier
+KeyModifier modifier = KeyModifierParser.parse("shift");
+
+// Getting the ModifierKey from a KeyModifier
+ModifierKey modKey = modifier.modifierKey;
+
+// Getting LogicalKeyboardKeys from a KeyModifier
+List<LogicalKeyboardKey> keys = modifier.logicalKeys;
+
+// Getting the label for a KeyModifier
+String label = modifier.keyLabel;
+
+// Convert LogicalKeyboardKey to KeyCode
+KeyCode keyCode = KeyCodeParser.fromLogicalKey(LogicalKeyboardKey.keyA);
+
+// Retrieve the LogicalKeyboardKey from a KeyCode
+LogicalKeyboardKey logicalKey = keyCode.logicalKey;
+
+// Parse a string to a KeyCode
+KeyCode parsedKeyCode = KeyCodeParser.parse("keyA");
+
+// Get the key label
+String keyLabel = keyCode.keyLabel;
+
+
+```
+Modifiers
+```dart
+KeyModifier.alt // macOS: option & windows: alt
+
+KeyModifier.shift // macOS: shift & windows: shift
+
+KeyModifier.meta // macOS: cmd & windows: windows key
+
+KeyModifier.control // macOS: control & windows: control
+
+// For Control Key
+String controlKeyLabel = KeyCode.control.keyLabel; // Returns '⌃' on macOS, 'Ctrl' on Windows
+
+// For Shift Key
+String shiftKeyLabel = KeyCode.shift.keyLabel; // Returns '⇧'
+
+// For Alt Key
+String altKeyLabel = KeyCode.alt.keyLabel; // Returns '⌥' on macOS, 'Alt' on Windows
+
+// For Meta Key
+String metaKeyLabel = KeyCode.meta.keyLabel; // Returns '⌘' on macOS, '⊞' on Windows
+```
+HotKey Object
+```dart
+enum HotKeyScope {
+  system,
+  inapp,
+}
+
+class HotKey {
+  HotKey(
+    this.keyCode, {
+    this.modifiers,
+    String? identifier,
+    HotKeyScope? scope,
+  }) {
+    if (identifier != null) this.identifier = identifier;
+    if (scope != null) this.scope = scope;
+  }
+
+  factory HotKey.fromJson(Map<String, dynamic> json) {
+    return HotKey(
+      KeyCodeParser.parse(json['keyCode']),
+      modifiers: List<String>.from(json['modifiers'])
+          .map((e) => KeyModifierParser.parse(e))
+          .toList(),
+      identifier: json['identifier'],
+      scope: HotKeyScope.values.firstWhere(
+        (e) => e.name == json['scope'],
+        orElse: () => HotKeyScope.system,
+      ),
+    );
+  }
+
+  KeyCode keyCode;
+  List<KeyModifier>? modifiers;
+  String identifier = DateTime.now().millisecondsSinceEpoch.toString();
+  HotKeyScope scope = HotKeyScope.system;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'keyCode': keyCode.name,
+      'modifiers': modifiers?.map((e) => e.name).toList() ?? [],
+      'identifier': identifier,
+      'scope': scope.name.toString(),
+    };
+  }
+
+  @override
+  String toString() {
+    return '${modifiers?.map((e) => e.keyLabel).join('')}${keyCode.keyLabel}';
+  }
+}
+```
 
 > Please see the example app of this plugin for a full example.
 
