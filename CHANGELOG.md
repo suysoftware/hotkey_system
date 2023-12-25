@@ -47,3 +47,10 @@ documentation updated
 
 UUID package deleted
 documentation updated
+
+## 0.0.7
+* Improvements
+
+UUID package added again
+
+

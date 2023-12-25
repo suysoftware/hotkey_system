@@ -1,5 +1,6 @@
 import 'package:hotkey_system/src/enums/key_code.dart';
 import 'package:hotkey_system/src/enums/key_modifier.dart';
+import 'package:uuid/uuid.dart';
 
 enum HotKeyScope {
   system,
@@ -20,9 +21,7 @@ class HotKey {
   factory HotKey.fromJson(Map<String, dynamic> json) {
     return HotKey(
       KeyCodeParser.parse(json['keyCode']),
-      modifiers: List<String>.from(json['modifiers'])
-          .map((e) => KeyModifierParser.parse(e))
-          .toList(),
+      modifiers: List<String>.from(json['modifiers']).map((e) => KeyModifierParser.parse(e)).toList(),
       identifier: json['identifier'],
       scope: HotKeyScope.values.firstWhere(
         (e) => e.name == json['scope'],
@@ -33,7 +32,7 @@ class HotKey {
 
   KeyCode keyCode;
   List<KeyModifier>? modifiers;
-  String identifier = DateTime.now().millisecondsSinceEpoch.toString();
+  String identifier = const Uuid().v4();
   HotKeyScope scope = HotKeyScope.system;
 
   Map<String, dynamic> toJson() {
