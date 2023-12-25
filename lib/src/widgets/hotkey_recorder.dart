@@ -36,11 +36,12 @@ class _HotKeyRecorderState extends State<HotKeyRecorder> {
 
   bool _handleHardwareKeyEvent(KeyEvent event) {
     if (event is KeyDownEvent) {
-
       KeyCode? keyCode = KeyCodeParser.fromLogicalKey(event.logicalKey);
       List<KeyModifier> keyModifiers = _getKeyModifiers();
 
-      if (keyCode != null && keyModifiers.isNotEmpty && !isKeyCodeModifier(keyCode)) {
+      if (keyCode != null &&
+          keyModifiers.isNotEmpty &&
+          !isKeyCodeModifier(keyCode)) {
         _hotKey = HotKey(
           keyCode,
           modifiers: keyModifiers,
@@ -68,22 +69,26 @@ class _HotKeyRecorderState extends State<HotKeyRecorder> {
     var logicalKeysPressed = HardwareKeyboard.instance.logicalKeysPressed;
 
     // Pressed logical modifier keys
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.control)) {
         keyModifiers.add(KeyModifier.control);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.shiftLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.shiftRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.shiftLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.shiftRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.shift)) {
         keyModifiers.add(KeyModifier.shift);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.altLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.altRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.altLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.altRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.alt)) {
         keyModifiers.add(KeyModifier.alt);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.metaLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.metaRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.metaLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.metaRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.meta)) {
         keyModifiers.add(KeyModifier.meta);
       }
@@ -96,16 +101,24 @@ class _HotKeyRecorderState extends State<HotKeyRecorder> {
 
   bool isKeyCodeModifier(KeyCode keyCode) {
     // Check modifiers
-    if (keyCode.logicalKey == KeyCode.control.logicalKey || keyCode.logicalKey == KeyCode.controlLeft.logicalKey || keyCode.logicalKey == KeyCode.controlRight.logicalKey) {
+    if (keyCode.logicalKey == KeyCode.control.logicalKey ||
+        keyCode.logicalKey == KeyCode.controlLeft.logicalKey ||
+        keyCode.logicalKey == KeyCode.controlRight.logicalKey) {
       return true;
     }
-    if (keyCode.logicalKey == KeyCode.shift.logicalKey || keyCode.logicalKey == KeyCode.shiftLeft.logicalKey || keyCode.logicalKey == KeyCode.shiftRight.logicalKey) {
+    if (keyCode.logicalKey == KeyCode.shift.logicalKey ||
+        keyCode.logicalKey == KeyCode.shiftLeft.logicalKey ||
+        keyCode.logicalKey == KeyCode.shiftRight.logicalKey) {
       return true;
     }
-    if (keyCode.logicalKey == KeyCode.alt.logicalKey || keyCode.logicalKey == KeyCode.altLeft.logicalKey || keyCode.logicalKey == KeyCode.altRight.logicalKey) {
+    if (keyCode.logicalKey == KeyCode.alt.logicalKey ||
+        keyCode.logicalKey == KeyCode.altLeft.logicalKey ||
+        keyCode.logicalKey == KeyCode.altRight.logicalKey) {
       return true;
     }
-    if (keyCode.logicalKey == KeyCode.meta.logicalKey || keyCode.logicalKey == KeyCode.metaLeft.logicalKey || keyCode.logicalKey == KeyCode.metaRight.logicalKey) {
+    if (keyCode.logicalKey == KeyCode.meta.logicalKey ||
+        keyCode.logicalKey == KeyCode.metaLeft.logicalKey ||
+        keyCode.logicalKey == KeyCode.metaRight.logicalKey) {
       return true;
     }
 
