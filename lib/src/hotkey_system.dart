@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
@@ -44,8 +43,10 @@ class HotKeySystem {
       }
     } else if (event is KeyUpEvent) {
       // KeyUpEvent
-      if (_lastPressedHotKey != null && event.logicalKey == _lastPressedHotKey!.keyCode.logicalKey) {
-        HotKeyHandler? handler = _keyUpHandlerMap[_lastPressedHotKey!.identifier];
+      if (_lastPressedHotKey != null &&
+          event.logicalKey == _lastPressedHotKey!.keyCode.logicalKey) {
+        HotKeyHandler? handler =
+            _keyUpHandlerMap[_lastPressedHotKey!.identifier];
         if (handler != null) {
           handler(_lastPressedHotKey!);
           _lastPressedHotKey = null;
@@ -56,10 +57,12 @@ class HotKeySystem {
     return false;
   }
 
-  HotKey? _findHotKey(LogicalKeyboardKey key, List<KeyModifier> currentModifiers) {
+  HotKey? _findHotKey(
+      LogicalKeyboardKey key, List<KeyModifier> currentModifiers) {
     // Find equal hotkey
     return _hotKeyList.firstWhereOrNull((hotKey) {
-      return hotKey.keyCode == KeyCodeParser.fromLogicalKey(key) && Set.from(currentModifiers).containsAll(hotKey.modifiers ?? []);
+      return hotKey.keyCode == KeyCodeParser.fromLogicalKey(key) &&
+          Set.from(currentModifiers).containsAll(hotKey.modifiers ?? []);
     });
   }
 
@@ -70,22 +73,26 @@ class HotKeySystem {
     var logicalKeysPressed = HardwareKeyboard.instance.logicalKeysPressed;
 
     // Pressed modifiers
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.controlLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.controlRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.control)) {
         keyModifiers.add(KeyModifier.control);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.shiftLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.shiftRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.shiftLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.shiftRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.shift)) {
         keyModifiers.add(KeyModifier.shift);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.altLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.altRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.altLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.altRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.alt)) {
         keyModifiers.add(KeyModifier.alt);
       }
     }
-    if (logicalKeysPressed.contains(LogicalKeyboardKey.metaLeft) || logicalKeysPressed.contains(LogicalKeyboardKey.metaRight)) {
+    if (logicalKeysPressed.contains(LogicalKeyboardKey.metaLeft) ||
+        logicalKeysPressed.contains(LogicalKeyboardKey.metaRight)) {
       if (!keyModifiers.any((element) => element == KeyModifier.meta)) {
         keyModifiers.add(KeyModifier.meta);
       }
