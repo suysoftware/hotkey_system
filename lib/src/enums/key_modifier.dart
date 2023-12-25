@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 
-const Map<KeyModifier, List<LogicalKeyboardKey>> _knownLogicalKeys = <KeyModifier, List<LogicalKeyboardKey>>{
+const Map<KeyModifier, List<LogicalKeyboardKey>> _knownLogicalKeys =
+    <KeyModifier, List<LogicalKeyboardKey>>{
   KeyModifier.capsLock: [
     LogicalKeyboardKey.capsLock,
   ],
@@ -31,7 +32,8 @@ const Map<KeyModifier, List<LogicalKeyboardKey>> _knownLogicalKeys = <KeyModifie
   ],
 };
 
-const Map<KeyModifier, ModifierKey> _knownModifierKeys = <KeyModifier, ModifierKey>{
+const Map<KeyModifier, ModifierKey> _knownModifierKeys =
+    <KeyModifier, ModifierKey>{
   KeyModifier.capsLock: ModifierKey.capsLockModifier,
   KeyModifier.shift: ModifierKey.shiftModifier,
   KeyModifier.control: ModifierKey.controlModifier,
@@ -64,7 +66,9 @@ extension KeyModifierParser on KeyModifier {
   }
 
   static KeyModifier? fromModifierKey(ModifierKey modifierKey) {
-    return _knownModifierKeys.entries.firstWhere((entry) => entry.value == modifierKey).key;
+    return _knownModifierKeys.entries
+        .firstWhere((entry) => entry.value == modifierKey)
+        .key;
   }
 
   ModifierKey get modifierKey {
@@ -79,7 +83,10 @@ extension KeyModifierParser on KeyModifier {
     }
     if (!logicalKeyIdList.contains(logicalKey.keyId)) return null;
 
-    return _knownLogicalKeys.entries.firstWhere((entry) => entry.value.map((e) => e.keyId).contains(logicalKey.keyId)).key;
+    return _knownLogicalKeys.entries
+        .firstWhere((entry) =>
+            entry.value.map((e) => e.keyId).contains(logicalKey.keyId))
+        .key;
   }
 
   List<LogicalKeyboardKey> get logicalKeys {
