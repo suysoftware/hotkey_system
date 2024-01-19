@@ -305,7 +305,12 @@ class HotkeySystemPlugin : public flutter::Plugin {
   flutter::PluginRegistrarWindows* registrar_;
   std::unique_ptr<flutter::MethodChannel<flutter::EncodableValue>> channel_ =
       nullptr;
+
+
+
+
   std::unordered_map<std::string, int32_t> hotkey_id_map_ = {};
+  std::unordered_map<int32_t, bool> hotkey_active_map_ = {}; // Eksik tanımlamanın eklendiği yer
   int32_t last_registered_hotkey_id_ = 0;
   int32_t window_proc_id_ = -1;
   std::optional<LRESULT> HandleWindowProc(HWND hwnd,
@@ -352,30 +357,56 @@ HotkeySystemPlugin::HotkeySystemPlugin(
       });
 }
 
+
+
 HotkeySystemPlugin::~HotkeySystemPlugin() {
   registrar_->UnregisterTopLevelWindowProcDelegate(window_proc_id_);
 }
-
 std::optional<LRESULT> HotkeySystemPlugin::HandleWindowProc(HWND hwnd,
-                                                             UINT message,
-                                                             WPARAM wparam,
-                                                             LPARAM lparam) {
+                                                            UINT message,
+                                                            WPARAM wparam,
+                                                            LPARAM lparam) {
+
+  static DWORD pushedKey = 0;
   switch (message) {
-    case WM_HOTKEY: {
-      int32_t hotkey_id = static_cast<int32_t>(wparam);
-      for (const auto& [identifier, id] : hotkey_id_map_) {
+case WM_HOTKEY: {
+    int32_t hotkey_id = static_cast<int32_t>(wparam);
+    	SHORT keyState = GetAsyncKeyState(pushedKey);
+if (keyState >= 0) {
+    for (const auto& [identifier, id] : hotkey_id_map_) {
         if (id == hotkey_id) {
-          channel_->InvokeMethod(
-              "onKeyDown",
-              std::make_unique<flutter::EncodableValue>(
-                  flutter::EncodableMap({{"identifier", identifier}})));
-          break;
+            // Hotkey işlevini çağır
+            channel_->InvokeMethod(
+                "onKeyDown",
+                std::make_unique<flutter::EncodableValue>(
+                    flutter::EncodableMap({{"identifier", identifier}})));
+
+            pushedKey = HIWORD(lparam);
+            SetTimer(hwnd, 1, 200, NULL);
+            break;
         }
-      }
     }
+}
+
+    break;
+}
+case WM_TIMER:
+		{
+			SHORT keyState = GetAsyncKeyState(pushedKey);
+			if (keyState >= 0) {
+        KillTimer(hwnd, 1);
+        pushedKey = 0;
+      }
+      else {
+        SetTimer(hwnd, 1, 200, NULL);
+			} 
+			break;
+		}
   }
   return std::nullopt;
 }
+
+
 
 void HotkeySystemPlugin::Register(
     const flutter::MethodCall<flutter::EncodableValue>& method_call,
@@ -394,6 +425,9 @@ void HotkeySystemPlugin::Register(
     modifiers.push_back(key_modifier);
   }
   int32_t hotkey_id = ++last_registered_hotkey_id_;
+
+  
+
   UINT fs_modifiers = GetFsModifiersFromString(modifiers);
   UINT virtual_key_code = GetVirtualKeyCodeFromString(key_code);
   ::RegisterHotKey(

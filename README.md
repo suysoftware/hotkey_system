@@ -41,7 +41,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  hotkey_system: ^0.0.7
+  hotkey_system: ^0.0.8
 ```
 
 Or

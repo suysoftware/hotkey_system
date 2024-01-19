@@ -53,4 +53,10 @@ documentation updated
 
 UUID package added again
 
+## 0.0.8
+* Bug fixed
+
+Windows side folders fixed
+Windows Trigger System Fixed
+
 
