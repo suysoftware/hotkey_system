@@ -56,6 +56,9 @@ UUID package added again
 ## 0.0.8
 * Bug fixed
 
+## 0.0.9
+* Update uuid version
+
 Windows side folders fixed
 Windows Trigger System Fixed
 

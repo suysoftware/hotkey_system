@@ -1,6 +1,6 @@
 name: hotkey_system
 description: This plugin allows Flutter desktop apps to defines system/inapp wide hotkey (i.e. shortcut).
-version: 0.0.8
+version: 0.0.9
 repository: https://github.com/suysoftware/hotkey_system
 
 
@@ -28,7 +28,7 @@ dependencies:
   collection: ^1.17.1
   flutter:
     sdk: flutter
-  uuid: ^3.0.7
+  uuid: ^4.0.0
 
 dev_dependencies:
   dependency_validator: ^3.0.0
